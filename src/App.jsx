@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Header from "./components/Header";
-import UrlInputField from "./components/UrlInputField";
-import QualitySelector from "./components/QualitySelector";
-import PlayButton from "./components/PlayButton";
-import Hint from "./components/Hint";
+import Header from "./components/Header/Header";
+import UrlInputField from "./components/UrlInputField/UrlInputField";
+import QualitySelector from "./components/QualitySelector/QualitySelector";
+import PlayButton from "./components/PlayButton/PlayButton";
+import Hint from "./components/Hint/Hint";
 import "./App.scss";
 
 export default function App() {

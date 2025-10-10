@@ -1,4 +1,4 @@
-import Select from "../../ui/Select";
+import Select from "../../ui/Select/Select";
 import "./QualitySelector.scss";
 
 const QUALITY_OPTIONS = [

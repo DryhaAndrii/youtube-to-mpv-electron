@@ -1,4 +1,4 @@
-import Input from "../../ui/Input";
+import Input from "../../ui/Input/Input";
 import "./UrlInputField.scss";
 
 export default function UrlInputField({ url, onChange, onEnter }) {
@@ -25,3 +25,4 @@ export default function UrlInputField({ url, onChange, onEnter }) {
     </div>
   );
 }
+
