@@ -18,9 +18,14 @@ const mpvPath = isDev
   : path.join(process.resourcesPath, "bin", "mpv.exe"); // for packaged app
 
 function createWindow() {
+  const iconPath = isDev
+    ? path.join(__dirname, "public", "ikonka.png")
+    : path.join(__dirname, "dist", "ikonka.png");
+
   const win = new BrowserWindow({
     width: 1000,
     height: 700,
+    icon: iconPath,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
