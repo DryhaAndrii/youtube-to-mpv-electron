@@ -19,6 +19,7 @@
       "dist/**/*",
       "main.js",
       "preload.js",
+      "electronLogic/**/*",
       "package.json"
     ],
     "extraResources": [
