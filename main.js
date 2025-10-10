@@ -1,6 +1,6 @@
 const { app, ipcMain } = require("electron");
 const path = require("path");
-const { createPlayVideoHandler } = require("./electronLogic/play-video");
+const { createPlayVideoHandler, fetchAvailableFormats } = require("./electronLogic/play-video");
 const { createWindow } = require("./electronLogic/window");
 
 // Disable GPU hardware acceleration to mitigate GPU process crashes on some systems
@@ -18,8 +18,15 @@ const mpvPath = isDev
   ? path.join(__dirname, "bin", "mpv.exe") // bin folder at project root
   : path.join(process.resourcesPath, "bin", "mpv.exe"); // for packaged app
 
+const ytDlpPath = isDev
+  ? path.join(__dirname, "bin", "yt-dlp.exe")
+  : path.join(process.resourcesPath, "bin", "yt-dlp.exe");
+
 // Register IPC handlers
 ipcMain.handle("play-video", createPlayVideoHandler(mpvPath));
+ipcMain.handle("fetch-formats", async (event, url) => {
+  return await fetchAvailableFormats(url, ytDlpPath);
+});
 
 app.whenReady().then(() => createWindow(isDev));
 

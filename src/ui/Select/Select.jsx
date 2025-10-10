@@ -6,6 +6,7 @@ export default function Select({
   onChange,
   options = [],
   className = "",
+  disabled = false,
 }) {
   return (
     <select
@@ -13,6 +14,7 @@ export default function Select({
       value={value}
       onChange={onChange}
       className={`select ${className}`}
+      disabled={disabled}
     >
       {options.map((option) => (
         <option key={option.value} value={option.value}>
