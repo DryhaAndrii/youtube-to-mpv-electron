@@ -8,7 +8,7 @@ Minimal Electron app: paste a YouTube link — it opens `mpv.exe` (via `yt-dlp`)
 - `mpv.exe` (see below)
 
 ## `mpv.exe` setup
-1. Download `mpv.exe` (e.g., shinchiro builds).
+1. Download `mpv.exe`can be downloaded here https://drive.google.com/drive/folders/1mBnF-koaapXOIHl2rcO7TUM2ARnyol6i?usp=sharing
 2. Place `mpv.exe` into the `bin/` folder at the project root.
    - The path must be `bin/mpv.exe`.
    - The file is in `.gitignore`, so it will not be committed.
