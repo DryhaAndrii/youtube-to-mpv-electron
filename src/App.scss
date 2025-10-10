@@ -1,0 +1,14 @@
+@import './styles/variables';
+
+.app-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: $spacing-lg;
+}
+
+.content {
+  width: 100%;
+  max-width: 600px;
+}

@@ -1,0 +1,9 @@
+@import '../../styles/variables';
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: $spacing-xl;
+  gap: $spacing-sm;
+}
+

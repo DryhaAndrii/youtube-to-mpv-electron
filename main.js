@@ -1,6 +1,7 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, ipcMain } = require("electron");
 const path = require("path");
-const { spawn } = require("child_process");
+const { createPlayVideoHandler } = require("./electronLogic/play-video");
+const { createWindow } = require("./electronLogic/window");
 
 // Disable GPU hardware acceleration to mitigate GPU process crashes on some systems
 app.disableHardwareAcceleration();
@@ -17,37 +18,10 @@ const mpvPath = isDev
   ? path.join(__dirname, "bin", "mpv.exe") // bin folder at project root
   : path.join(process.resourcesPath, "bin", "mpv.exe"); // for packaged app
 
-function createWindow() {
-  const iconPath = isDev
-    ? path.join(__dirname, "public", "ikonka.png")
-    : path.join(__dirname, "dist", "ikonka.png");
+// Register IPC handlers
+ipcMain.handle("play-video", createPlayVideoHandler(mpvPath));
 
-  const win = new BrowserWindow({
-    width: 1000,
-    height: 700,
-    icon: iconPath,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      contextIsolation: true,
-      nodeIntegration: false,
-    },
-  });
-
-  if (isDev) {
-    win.loadURL("http://localhost:5173");
-    win.webContents.openDevTools();
-  } else {
-    win.loadFile(path.join(__dirname, "dist", "index.html"));
-  }
-}
-
-ipcMain.handle("play-video", (event, url) => {
-  const child = spawn(mpvPath, [url], { detached: true, stdio: "ignore" });
-  child.unref();
-  return true;
-});
-
-app.whenReady().then(createWindow);
+app.whenReady().then(() => createWindow(isDev));
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();

@@ -1,0 +1,36 @@
+@import '../../styles/variables';
+
+.input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: $radius;
+  border: 1px solid $border-color-dark;
+  background: $bg-input-dark;
+  color: #eee;
+  font-size: 14px;
+  outline: none;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    border-color: $primary-color;
+  }
+
+  &::placeholder {
+    color: #666;
+  }
+
+  @media (prefers-color-scheme: light) {
+    background: $bg-input-light;
+    color: #333;
+    border-color: $border-color-light;
+
+    &:focus {
+      border-color: $primary-color;
+    }
+
+    &::placeholder {
+      color: #999;
+    }
+  }
+}
+

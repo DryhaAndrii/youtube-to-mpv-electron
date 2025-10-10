@@ -1,0 +1,29 @@
+@import '../../styles/variables';
+
+.select {
+  padding: 10px 12px;
+  border-radius: $radius;
+  border: 1px solid $border-color-dark;
+  background: $bg-input-dark;
+  color: #eee;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color $transition-fast;
+  min-width: 150px;
+
+  &:focus {
+    border-color: $primary-color;
+  }
+
+  @media (prefers-color-scheme: light) {
+    background: $bg-input-light;
+    color: #333;
+    border-color: $border-color-light;
+
+    &:focus {
+      border-color: $primary-color;
+    }
+  }
+}
+

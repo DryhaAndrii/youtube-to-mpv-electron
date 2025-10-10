@@ -1,33 +1,46 @@
 import { useState } from "react";
+import Header from "./components/Header";
+import UrlInputField from "./components/UrlInputField";
+import QualitySelector from "./components/QualitySelector";
+import PlayButton from "./components/PlayButton";
+import Hint from "./components/Hint";
+import "./App.scss";
 
 export default function App() {
   const [url, setUrl] = useState("");
+  const [quality, setQuality] = useState("720p");
 
   const handlePlay = async () => {
-    if (!url) return alert("Paste a YouTube video URL");
+    if (!url) return alert("Please enter a YouTube video URL");
+    
     try {
-      await window.electronAPI.playVideo(url);
+      await window.electronAPI.playVideo(url, quality);
     } catch (e) {
       console.error(e);
-      alert("Failed to launch the player. Check mpv.exe and PATH.");
+      alert("Failed to launch the player. Check mpv.exe and yt-dlp.exe.");
     }
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>YT → mpv</h2>
-      <input
-        style={{ width: "70%", padding: 8 }}
-        placeholder="Paste a YouTube link"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-      />
-      <button
-        style={{ marginLeft: 8, padding: "8px 12px" }}
-        onClick={handlePlay}
-      >
-        ▶️ Play via mpv
-      </button>
+    <div className="app-container">
+      <div className="content">
+        <Header />
+        
+        <UrlInputField
+          url={url}
+          onChange={(e) => setUrl(e.target.value)}
+          onEnter={handlePlay}
+        />
+        
+        <QualitySelector
+          quality={quality}
+          onChange={(e) => setQuality(e.target.value)}
+        />
+        
+        <PlayButton onClick={handlePlay} />
+        
+        <Hint />
+      </div>
     </div>
   );
 }

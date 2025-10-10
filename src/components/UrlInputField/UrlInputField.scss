@@ -1,0 +1,27 @@
+@import '../../styles/variables';
+
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+
+  label {
+    min-width: 80px;
+    font-size: 14px;
+    color: $text-muted-dark;
+  }
+
+  @media (prefers-color-scheme: light) {
+    label {
+      color: $text-muted-light;
+    }
+  }
+}
+
+.input-group {
+  flex: 1;
+  display: flex;
+  gap: $spacing-xs;
+}
+
