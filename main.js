@@ -23,7 +23,7 @@ const ytDlpPath = isDev
   : path.join(process.resourcesPath, "bin", "yt-dlp.exe");
 
 // Register IPC handlers
-ipcMain.handle("play-video", createPlayVideoHandler(mpvPath));
+ipcMain.handle("play-video", createPlayVideoHandler(mpvPath, ytDlpPath));
 ipcMain.handle("fetch-formats", async (event, url) => {
   return await fetchAvailableFormats(url, ytDlpPath);
 });

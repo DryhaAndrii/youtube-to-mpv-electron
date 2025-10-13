@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 /**
  * Custom hook for fetching available video formats from YouTube
@@ -9,6 +9,12 @@ export function useVideoFormats(url) {
   const [availableQualities, setAvailableQualities] = useState([]);
   const [isFetchingFormats, setIsFetchingFormats] = useState(false);
   const [selectedQuality, setSelectedQuality] = useState("Best");
+  const selectedQualityRef = useRef(selectedQuality);
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    selectedQualityRef.current = selectedQuality;
+  }, [selectedQuality]);
 
   // Debounce URL changes to avoid too many requests
   useEffect(() => {
@@ -25,7 +31,7 @@ export function useVideoFormats(url) {
         
         // Auto-select best available quality if current selection is not available
         if (formats.length > 0) {
-          const currentQualityExists = formats.some(f => f.value === selectedQuality);
+          const currentQualityExists = formats.some(f => f.value === selectedQualityRef.current);
           if (!currentQualityExists) {
             setSelectedQuality(formats[0].value); // Select first (best) quality
           }
@@ -39,7 +45,7 @@ export function useVideoFormats(url) {
     }, 1000); // Wait 1 second after user stops typing
 
     return () => clearTimeout(timer);
-  }, [url, selectedQuality]);
+  }, [url]); // Only depend on URL, not selectedQuality
 
   return {
     availableQualities,
