@@ -1,6 +1,6 @@
 const { app, ipcMain } = require("electron");
 const path = require("path");
-const { createPlayVideoHandler, fetchAvailableFormats } = require("./electronLogic/play-video");
+const { createPlayVideoHandler, createGetMpvStatusHandler, fetchAvailableFormats } = require("./electronLogic/play-video");
 const { createWindow } = require("./electronLogic/window");
 
 // Disable GPU hardware acceleration to mitigate GPU process crashes on some systems
@@ -24,6 +24,7 @@ const ytDlpPath = isDev
 
 // Register IPC handlers
 ipcMain.handle("play-video", createPlayVideoHandler(mpvPath, ytDlpPath));
+ipcMain.handle("get-mpv-status", createGetMpvStatusHandler());
 ipcMain.handle("fetch-formats", async (event, url) => {
   return await fetchAvailableFormats(url, ytDlpPath);
 });

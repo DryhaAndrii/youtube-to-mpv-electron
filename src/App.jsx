@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header/Header";
 import UrlInputField from "./components/UrlInputField/UrlInputField";
 import QualitySelector from "./components/QualitySelector/QualitySelector";
@@ -9,6 +9,7 @@ import "./App.scss";
 
 export default function App() {
   const [url, setUrl] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
   
   const {
     availableQualities,
@@ -16,6 +17,24 @@ export default function App() {
     selectedQuality,
     setSelectedQuality,
   } = useVideoFormats(url);
+
+  // Check initial MPV status and set up listeners
+  useEffect(() => {
+    // Check current status on mount
+    window.electronAPI.getMpvStatus().then(status => {
+      setIsPlaying(status.isPlaying);
+    });
+
+    // Listen for MPV status changes
+    window.electronAPI.onMpvStatusChange((status) => {
+      setIsPlaying(status.isPlaying);
+    });
+
+    // Cleanup listener on unmount
+    return () => {
+      window.electronAPI.removeMpvStatusListener();
+    };
+  }, []);
 
   const handlePlay = async () => {
     if (!url) return alert("Please enter a YouTube video URL");
@@ -48,7 +67,11 @@ export default function App() {
           />
         )}
         
-        <PlayButton onClick={handlePlay} disabled={availableQualities.length === 0} />
+        <PlayButton 
+          onClick={handlePlay} 
+          disabled={availableQualities.length === 0 || isPlaying} 
+          isPlaying={isPlaying}
+        />
         
         <Hint />
         
