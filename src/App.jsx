@@ -8,7 +8,7 @@ import { useVideoFormats } from "./services/useVideoFormats";
 import "./App.scss";
 
 export default function App() {
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState("https://www.youtube.com/watch?v=gHWFSxa5r6I");
   const [isPlaying, setIsPlaying] = useState(false);
   
   const {
