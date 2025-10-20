@@ -5,15 +5,15 @@ import QualitySelector from "./QualitySelector/QualitySelector";
 import PlayButton from "./PlayButton/PlayButton";
 import Hint from "./Hint/Hint";
 import Loader from "../../ui/Loader/Loader";
+import { useToast } from "../../ui/Toast";
 import { useVideoFormats } from "../../services/useVideoFormats";
 import "./DirectVideoPlayTab.scss";
 
 export default function DirectVideoPlayTab() {
   const [url, setUrl] = useState("https://www.youtube.com/watch?v=gHWFSxa5r6I");
   const [isPlaying, setIsPlaying] = useState(false);
-  const [mpvStatusMessage, setMpvStatusMessage] = useState("");
-  const [mpvMessageType, setMpvMessageType] = useState("success");
   const isPlayingRef = useRef(false);
+  const { showSuccess, showError, showWarning } = useToast();
   
   const {
     availableQualities,
@@ -38,31 +38,16 @@ export default function DirectVideoPlayTab() {
       
       // Show status messages
       if (status.isPlaying && !wasPlaying) {
-        setMpvStatusMessage("MPV player started successfully!");
-        setMpvMessageType("success");
-        // Clear message after 3 seconds
-        setTimeout(() => setMpvStatusMessage(""), 3000);
+        showSuccess("MPV player started successfully!");
       } else if (!status.isPlaying && wasPlaying) {
         // Determine the appropriate message based on exit reason
-        let message = "MPV player has been closed.";
-        let messageType = "success";
-        
         if (status.exitReason === 'error') {
-          message = "MPV player failed to play the video. Please check the URL or try a different quality.";
-          messageType = "error";
+          showError("MPV player failed to play the video. Please check the URL or try a different quality.");
         } else if (status.exitReason === 'interrupted') {
-          message = "MPV player was interrupted.";
-          messageType = "warning";
+          showWarning("MPV player was interrupted.");
         } else {
-          message = "MPV player has been closed.";
-          messageType = "success";
+          showSuccess("MPV player has been closed.");
         }
-        
-        setMpvStatusMessage(message);
-        setMpvMessageType(messageType);
-        // Clear message after 5 seconds for error messages (longer display time)
-        const clearTime = status.exitReason === 'error' ? 5000 : 3000;
-        setTimeout(() => setMpvStatusMessage(""), clearTime);
       }
     });
 
@@ -117,11 +102,6 @@ export default function DirectVideoPlayTab() {
         />
       )}
       
-      {mpvStatusMessage && (
-        <div className={`mpv-status-message ${mpvMessageType}`}>
-          {mpvStatusMessage}
-        </div>
-      )}
     </div>
   );
 }

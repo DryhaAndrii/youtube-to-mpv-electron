@@ -1,17 +1,20 @@
 import { useState } from "react";
 import Input from "../../ui/Input/Input";
 import Button from "../../ui/Button/Button";
+import { useToast } from "../../ui/Toast";
 import "./SearchTab.scss";
 
 export default function SearchTab() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { showSuccess, showError, showWarning } = useToast();
 
   const handleSearch = () => {
     if (!searchQuery.trim()) {
-      alert("Please enter a search query");
+      showWarning("Please enter a search query");
       return;
     }
 
+    showSuccess(`Searching for: "${searchQuery}"`);
     console.log("Searching for:", searchQuery);
     // TODO: Implement search functionality
   };
