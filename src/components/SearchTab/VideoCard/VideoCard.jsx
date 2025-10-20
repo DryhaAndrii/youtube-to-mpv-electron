@@ -1,6 +1,6 @@
 import "./VideoCard.scss";
 
-export default function VideoCard({ video }) {
+export default function VideoCard({ video, onVideoClick }) {
   const formatDuration = (seconds) => {
     if (!seconds) return "Unknown";
     const hours = Math.floor(seconds / 3600);
@@ -23,8 +23,14 @@ export default function VideoCard({ video }) {
     return `${count} views`;
   };
 
+  const handleClick = () => {
+    if (onVideoClick) {
+      onVideoClick(video);
+    }
+  };
+
   return (
-    <div className="video-card">
+    <div className="video-card" onClick={handleClick}>
       <div className="video-thumbnail">
         <img 
           src={video.thumbnail} 

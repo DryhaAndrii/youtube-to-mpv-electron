@@ -9,10 +9,12 @@ import { useToast } from "../../ui/Toast";
 import { useVideoFormats } from "../../services/useVideoFormats";
 import "./DirectVideoPlayTab.scss";
 
-export default function DirectVideoPlayTab() {
-  const [url, setUrl] = useState("https://www.youtube.com/watch?v=gHWFSxa5r6I");
+export default function DirectVideoPlayTab({ initialUrl }) {
+  const [url, setUrl] = useState(initialUrl || "https://www.youtube.com/watch?v=gHWFSxa5r6I");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isUserEditing, setIsUserEditing] = useState(false);
   const isPlayingRef = useRef(false);
+  const editingTimeoutRef = useRef(null);
   const { showSuccess, showError, showWarning } = useToast();
   
   const {
@@ -21,6 +23,13 @@ export default function DirectVideoPlayTab() {
     selectedQuality,
     setSelectedQuality,
   } = useVideoFormats(url);
+
+  // Update URL when initialUrl changes (only if user is not actively editing)
+  useEffect(() => {
+    if (initialUrl && initialUrl !== url && !isUserEditing) {
+      setUrl(initialUrl);
+    }
+  }, [initialUrl]);
 
   // Check initial MPV status and set up listeners
   useEffect(() => {
@@ -54,6 +63,9 @@ export default function DirectVideoPlayTab() {
     // Cleanup listener on unmount
     return () => {
       window.electronAPI.removeMpvStatusListener();
+      if (editingTimeoutRef.current) {
+        clearTimeout(editingTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -74,7 +86,22 @@ export default function DirectVideoPlayTab() {
       
       <UrlInputField
         url={url}
-        onChange={(e) => setUrl(e.target.value)}
+        onChange={(e) => {
+          setUrl(e.target.value);
+          setIsUserEditing(true);
+          
+          // Clear existing timeout
+          if (editingTimeoutRef.current) {
+            clearTimeout(editingTimeoutRef.current);
+          }
+          
+          // Set new timeout to reset editing flag after 2 seconds of inactivity
+          editingTimeoutRef.current = setTimeout(() => {
+            setIsUserEditing(false);
+          }, 2000);
+        }}
+        onFocus={() => setIsUserEditing(true)}
+        onBlur={() => setIsUserEditing(false)}
         onEnter={handlePlay}
       />
       

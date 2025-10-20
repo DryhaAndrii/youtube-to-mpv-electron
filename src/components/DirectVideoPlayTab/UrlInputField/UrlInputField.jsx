@@ -1,7 +1,7 @@
 import Input from "../../../ui/Input/Input";
 import "./UrlInputField.scss";
 
-export default function UrlInputField({ url, onChange, onEnter }) {
+export default function UrlInputField({ url, onChange, onEnter, onFocus, onBlur }) {
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && onEnter) {
       onEnter();
@@ -19,6 +19,8 @@ export default function UrlInputField({ url, onChange, onEnter }) {
           value={url}
           onChange={onChange}
           onKeyPress={handleKeyPress}
+          onFocus={onFocus}
+          onBlur={onBlur}
           autoFocus
         />
       </div>

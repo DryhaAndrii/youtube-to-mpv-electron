@@ -2,11 +2,11 @@ import { useState } from "react";
 import Input from "../../ui/Input/Input";
 import Button from "../../ui/Button/Button";
 import Loader from "../../ui/Loader/Loader";
-import VideoCard from "./VideoCard";
+import VideoCard from "./VideoCard/VideoCard";
 import { useToast } from "../../ui/Toast";
 import "./SearchTab.scss";
 
-export default function SearchTab() {
+export default function SearchTab({ onSwitchToDirectPlay }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [videos, setVideos] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -79,6 +79,22 @@ export default function SearchTab() {
     }
   };
 
+  const handleVideoClick = async (video) => {
+    try {
+      // Copy URL to clipboard
+      await navigator.clipboard.writeText(video.url);
+      showSuccess(`Video URL copied! Switching to Direct Play...`);
+      
+      // Switch to Direct Play tab with the video URL
+      if (onSwitchToDirectPlay) {
+        onSwitchToDirectPlay(video.url);
+      }
+    } catch (error) {
+      console.error('Failed to copy URL:', error);
+      showError('Failed to copy video URL');
+    }
+  };
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch();
@@ -117,7 +133,7 @@ export default function SearchTab() {
         {!isSearching && videos.length > 0 && (
           <div className="videos-grid">
             {videos.map((video) => (
-              <VideoCard key={video.id} video={video} />
+              <VideoCard key={video.id} video={video} onVideoClick={handleVideoClick} />
             ))}
           </div>
         )}

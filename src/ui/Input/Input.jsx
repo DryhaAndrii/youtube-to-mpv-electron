@@ -7,6 +7,8 @@ export default function Input({
   value, 
   onChange, 
   onKeyPress,
+  onFocus,
+  onBlur,
   autoFocus = false,
   className = ""
 }) {
@@ -18,6 +20,8 @@ export default function Input({
       value={value}
       onChange={onChange}
       onKeyPress={onKeyPress}
+      onFocus={onFocus}
+      onBlur={onBlur}
       autoFocus={autoFocus}
       className={`input ${className}`}
     />
