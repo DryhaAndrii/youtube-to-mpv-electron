@@ -1,0 +1,109 @@
+@use '../../styles/variables' as *;
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md;
+  
+  &.loader-small {
+    padding: $spacing-sm;
+    
+    .loader-spinner {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .loader-message {
+      font-size: 12px;
+      margin-top: $spacing-xs;
+    }
+  }
+  
+  &.loader-medium {
+    padding: $spacing-md;
+    
+    .loader-spinner {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .loader-message {
+      font-size: 14px;
+      margin-top: $spacing-sm;
+    }
+  }
+  
+  &.loader-large {
+    padding: $spacing-lg;
+    
+    .loader-spinner {
+      width: 48px;
+      height: 48px;
+    }
+    
+    .loader-message {
+      font-size: 16px;
+      margin-top: $spacing-md;
+    }
+  }
+}
+
+.loader-spinner {
+  position: relative;
+  display: inline-block;
+}
+
+.spinner-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid transparent;
+  border-top: 2px solid $primary-color;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+  
+  &:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+  
+  &:nth-child(2) {
+    animation-delay: -0.3s;
+    border-top-color: rgba($primary-color, 0.8);
+  }
+  
+  &:nth-child(3) {
+    animation-delay: -0.15s;
+    border-top-color: rgba($primary-color, 0.6);
+  }
+  
+  &:nth-child(4) {
+    border-top-color: rgba($primary-color, 0.4);
+  }
+}
+
+.loader-message {
+  color: $text-muted-light;
+  font-family: $font-family;
+  font-weight: 400;
+  text-align: center;
+  line-height: 1.4;
+  max-width: 200px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Dark theme support
+@media (prefers-color-scheme: dark) {
+  .loader-message {
+    color: $text-muted-dark;
+  }
+}

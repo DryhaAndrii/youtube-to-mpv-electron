@@ -4,6 +4,7 @@ import UrlInputField from "./UrlInputField/UrlInputField";
 import QualitySelector from "./QualitySelector/QualitySelector";
 import PlayButton from "./PlayButton/PlayButton";
 import Hint from "./Hint/Hint";
+import Loader from "../../ui/Loader/Loader";
 import { useVideoFormats } from "../../services/useVideoFormats";
 import "./DirectVideoPlayTab.scss";
 
@@ -75,9 +76,10 @@ export default function DirectVideoPlayTab() {
       <Hint />
       
       {isFetchingFormats && (
-        <div className="loading-indicator">
-          Checking available qualities...
-        </div>
+        <Loader 
+          message="Checking available qualities..."
+          size="small"
+        />
       )}
     </div>
   );
