@@ -5,4 +5,3 @@ export default function Header() {
     <h1 className="header">YouTube Player → MPV</h1>
   );
 }
-

@@ -1,0 +1,39 @@
+@use '../../styles/variables' as *;
+
+.tabs-container {
+  width: 100%;
+  max-width: 600px;
+}
+
+.tabs-header {
+  display: flex;
+  border-bottom: 2px solid $border-color-light;
+  margin-bottom: $spacing-lg;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: $spacing-md $spacing-lg;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: $text-muted-light;
+  border-bottom: 2px solid transparent;
+  transition: all $transition-fast ease;
+  
+  &:hover {
+    color: $text-light;
+    background-color: rgba($primary-color, 0.05);
+  }
+  
+  &.active {
+    color: $primary-color;
+    border-bottom-color: $primary-color;
+    background-color: rgba($primary-color, 0.05);
+  }
+}
+
+.tabs-content {
+  min-height: 300px;
+}

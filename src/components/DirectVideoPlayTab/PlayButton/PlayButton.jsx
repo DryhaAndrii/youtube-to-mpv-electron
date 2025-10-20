@@ -1,4 +1,4 @@
-import Button from "../../ui/Button/Button";
+import Button from "../../../ui/Button/Button";
 import "./PlayButton.scss";
 
 export default function PlayButton({ onClick, disabled = false, isPlaying = false }) {
@@ -12,4 +12,3 @@ export default function PlayButton({ onClick, disabled = false, isPlaying = fals
     </div>
   );
 }
-

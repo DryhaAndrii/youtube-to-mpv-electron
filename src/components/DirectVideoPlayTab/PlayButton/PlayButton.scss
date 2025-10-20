@@ -1,4 +1,4 @@
-@use '../../styles/variables' as *;
+@use '../../../styles/variables' as *;
 
 .actions {
   display: flex;
@@ -6,4 +6,3 @@
   margin-top: $spacing-xl;
   gap: $spacing-sm;
 }
-

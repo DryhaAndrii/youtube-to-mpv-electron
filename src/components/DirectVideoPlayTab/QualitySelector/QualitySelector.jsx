@@ -1,4 +1,4 @@
-import Select from "../../ui/Select/Select";
+import Select from "../../../ui/Select/Select";
 import "./QualitySelector.scss";
 
 const DEFAULT_QUALITY_OPTIONS = [
@@ -26,4 +26,3 @@ export default function QualitySelector({ quality, onChange, options, disabled }
     </div>
   );
 }
-

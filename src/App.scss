@@ -2,10 +2,11 @@
 
 .app-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-height: 100vh;
   padding: $spacing-lg;
+  padding-top: $spacing-xl;
 }
 
 .content {

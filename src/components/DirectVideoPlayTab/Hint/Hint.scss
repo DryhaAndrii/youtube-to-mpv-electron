@@ -1,4 +1,4 @@
-@use '../../styles/variables' as *;
+@use '../../../styles/variables' as *;
 
 .hint {
   margin-top: $spacing-lg;
@@ -11,4 +11,3 @@
     color: $hint-color-light;
   }
 }
-
