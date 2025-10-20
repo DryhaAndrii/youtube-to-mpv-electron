@@ -34,8 +34,21 @@ function createPlayVideoHandler(mpvPath, ytDlpPath) {
         console.log(`[PlayVideo] MPV process ${child.pid} exited with code ${code}, signal ${signal}`);
         activeMpvProcesses.delete(child.pid);
         
-        // Send event to renderer that MPV stopped
-        event.sender.send('mpv-status-changed', { isPlaying: false });
+        // Determine exit reason
+        let exitReason = 'closed';
+        if (code !== 0) {
+          exitReason = 'error';
+        } else if (signal) {
+          exitReason = 'interrupted';
+        }
+        
+        // Send event to renderer that MPV stopped with reason
+        event.sender.send('mpv-status-changed', { 
+          isPlaying: false, 
+          exitCode: code, 
+          exitSignal: signal,
+          exitReason: exitReason
+        });
       });
 
       child.unref();
